@@ -1,0 +1,106 @@
+.navbar-brand img {
+  width: 100px;
+  margin-top: -10px;
+}
+
+div#main-container {
+  margin-top: 60px;
+}
+
+#principal-container {
+  position: relative;
+}
+
+div#huit-navbar {
+  text-align: right;
+  margin-right: 15px;
+  float: left;
+  right: 0;
+  position: absolute;
+}
+
+#huit-actions {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.player {
+  float: left;
+  text-align: center;
+}
+
+.col-size-1 {
+  width: 100%;
+}
+
+.col-size-2 {
+  width: 50%;
+}
+
+.col-size-3 {
+  width: 33.333333336%;
+}
+
+.col-size-4 {
+  width: 25%;
+}
+
+.col-size-5 {
+  width: 20%;
+}
+
+.col-size-6 {
+  width: 16.666666667%;
+}
+
+.col-size-7 {
+  width: 14.285714286%;
+}
+
+.col-size-8 {
+  width: 12.5%;
+}
+
+.col-size-9 {
+  width: 11.111111111%;
+}
+
+.col-size-10 {
+  width: 10%;
+}
+
+.player-points-input {
+  height: 25px;
+  padding: 0px 3px;
+  font-size: 10px;
+  line-height: 1.5;
+  border-radius: 0px;
+  text-align: center;
+}
+
+.col-sm-6.create-game-form {
+  line-height: 90px;
+}
+
+.center {
+  text-align: center;
+}
+
+.player-points-form-group {
+    margin-bottom: 0px;
+}
+
+i.fa.fa-hand-paper-o {
+    font-size: 23px;
+    color: #d9534f;
+}
+
+i.fa.fa-star {
+    color: #c7c705;
+}
+.superscoresline {
+    position: relative;
+}
+.superscorestar {
+    display:inline-block
+}

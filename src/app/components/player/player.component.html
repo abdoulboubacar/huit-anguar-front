@@ -1,0 +1,43 @@
+<div class="table-responsive">
+  <table class="table table-condensed table-striped">
+    <thead>
+    <tr>
+      <td>
+        <h5 title="{{player.name}}">{{player.name[0]}} {{player.name[1]}}
+          <i *ngIf="player.winner" class="fa fa-trophy" aria-hidden="true"></i>
+        </h5>
+        <div *ngFor="let star of player.superScore;" class="superscoresline">
+          <div *ngFor="let i of (star | range);" class="superscorestar">
+            <i class="fa fa-star" aria-hidden="true"></i>
+          </div>
+          <i *ngIf="star==0" class="fa fa-thumbs-up" aria-hidden="true"></i>
+        </div>
+        <span>{{playerService.total(player)}}</span>
+      </td>
+    </tr>
+    </thead>
+    <tbody *ngFor="let score of player.score;">
+    <tr>
+      <td>{{score}}</td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td>
+        <form class="form form-inline" [formGroup]="playerForm" *ngIf="player.valid">
+          <div class="form-group player-points-form-group">
+            <input formControlName="score" (ngModelChange)="preSubmit($event)" type="text"
+                   class="form-control input-sm player-points-input" id="name{{player.id}}" placeholder="Points">
+            <input formControlName="playerId" type="hidden" value="{{player.id}}">
+          </div>
+        </form>
+        <div *ngIf="!player.valid" class="success">
+          <i class="fa fa-hand-paper-o fa-1x" aria-hidden="true"></i>
+        </div>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
+
+</div>
+
