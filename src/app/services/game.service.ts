@@ -6,7 +6,7 @@ import {LocalStorageService} from 'angular-2-local-storage';
 
 @Injectable()
 export class GameService {
-  private gameUrl = 'http://localhost:9000/api/game';  // base URL to web api
+  private gameUrl = '/api/game';  // base URL to web api
   private game;
 
   constructor(private http: Http, private localStorageService: LocalStorageService) {
@@ -29,20 +29,20 @@ export class GameService {
     const gameName = this.localStorageService.get('GameName');
     const url = `${this.gameUrl}/${gameName}/player/remove/${playerName}`;
     this.localStorageService.remove('preSavedScores');
-    return this.post(url, '');
+    return this.delete(url);
   }
 
   createPlayer(playerName): Promise<Game> {
     const gameName = this.localStorageService.get('GameName');
     const url = `${this.gameUrl}/${gameName}/player/add/${playerName}`;
     this.localStorageService.remove('preSavedScores');
-    return this.post(url, '');
+    return this.put(url, '');
   }
 
   removeLast(): Promise<Game> {
     const gameName = this.localStorageService.get('GameName');
     const url = `${this.gameUrl}/${gameName}/removelast`
-    return this.post(url, '');
+    return this.patch(url, '');
   }
 
   saveScores(): Promise<Game>[] {
@@ -68,17 +68,41 @@ export class GameService {
 
   private addPlayerScore(gameName, playerName, score): Promise<Game> {
     const url = `${this.gameUrl}/${gameName}/player/updatescore/${playerName}/${score}`
-    return this.post(url, '');
+    return this.patch(url, '');
   }
 
   addPlayerSuperScore(gameName, playerName, superscore): Promise<Game> {
     const url = `${this.gameUrl}/${gameName}/player/updatesuperscore/${playerName}/${superscore}`
-    return this.post(url, '');
+    return this.patch(url, '');
   }
 
   private get(url): Promise<Game> {
     return this.http
       .get(url)
+      .toPromise()
+      .then(res => res.json() as Game)
+      .catch(this.handleError);
+  }
+
+  private put(url, data): Promise<Game> {
+    return this.http
+      .put(url, data)
+      .toPromise()
+      .then(res => res.json() as Game)
+      .catch(this.handleError);
+  }
+
+  private patch(url, data): Promise<Game> {
+    return this.http
+      .patch(url, data)
+      .toPromise()
+      .then(res => res.json() as Game)
+      .catch(this.handleError);
+  }
+
+  private delete(url): Promise<Game> {
+    return this.http
+      .delete(url)
       .toPromise()
       .then(res => res.json() as Game)
       .catch(this.handleError);
