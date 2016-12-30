@@ -104,3 +104,8 @@ i.fa.fa-star {
 .superscorestar {
     display:inline-block
 }
+
+.info, .spinner {
+  color:#5cb85c;
+  cursor: pointer;
+}
