@@ -1,21 +1,20 @@
 import {Player} from '../model/Player';
 import 'rxjs/add/operator/toPromise';
-import {LocalStorageService} from 'angular-2-local-storage';
 import {Injectable} from '@angular/core';
 
 @Injectable()
 export class PlayerService {
 
-  constructor(private localStorageService: LocalStorageService) {
+  constructor() {
   }
 
   preSaveScore(player: Player, score): void {
-    let preSavedScores: Object = this.localStorageService.get('preSavedScores');
+    let preSavedScores: Object = JSON.parse(localStorage.getItem('preSavedScores'));
     if (preSavedScores == null) {
       preSavedScores = {};
     }
     preSavedScores[player.id] = {'name': player.name, 'score': score.trim()};
-    this.localStorageService.set('preSavedScores', preSavedScores);
+    localStorage.setItem('preSavedScores', JSON.stringify(preSavedScores));
   }
 
   total(player: Player):Number {

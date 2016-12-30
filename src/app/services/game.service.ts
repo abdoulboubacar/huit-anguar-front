@@ -2,52 +2,51 @@ import {Injectable} from '@angular/core';
 import {Game} from '../model/Game';
 import {Headers, Http} from '@angular/http';
 import 'rxjs/add/operator/toPromise';
-import {LocalStorageService} from 'angular-2-local-storage';
 
 @Injectable()
 export class GameService {
   private gameUrl = '/api/game';  // base URL to web api
   private game;
 
-  constructor(private http: Http, private localStorageService: LocalStorageService) {
+  constructor(private http: Http) {
   }
 
   getGame(): Promise<Game> {
-    const gameName = this.localStorageService.get('GameName');
+    const gameName = localStorage.getItem('GameName');
     const url = `${this.gameUrl}/${gameName}`;
     return this.post(url, '');
   }
 
-  createGame(name: String): Promise<Game> {
-    this.localStorageService.clearAll();
-    this.localStorageService.set('GameName', name);
+  createGame(name: string): Promise<Game> {
+    localStorage.removeItem('preSavedScores');
+    localStorage.setItem('GameName', name);
 
     return this.getGame();
   }
 
   removePlayer(playerName): Promise<Game> {
-    const gameName = this.localStorageService.get('GameName');
+    const gameName = localStorage.getItem('GameName');
     const url = `${this.gameUrl}/${gameName}/player/remove/${playerName}`;
-    this.localStorageService.remove('preSavedScores');
+    localStorage.removeItem('preSavedScores');
     return this.delete(url);
   }
 
   createPlayer(playerName): Promise<Game> {
-    const gameName = this.localStorageService.get('GameName');
+    const gameName = localStorage.getItem('GameName');
     const url = `${this.gameUrl}/${gameName}/player/add/${playerName}`;
-    this.localStorageService.remove('preSavedScores');
+    localStorage.removeItem('preSavedScores');
     return this.put(url, '');
   }
 
   removeLast(): Promise<Game> {
-    const gameName = this.localStorageService.get('GameName');
+    const gameName = localStorage.getItem('GameName');
     const url = `${this.gameUrl}/${gameName}/removelast`
     return this.patch(url, '');
   }
 
   saveScores(): Promise<Game>[] {
-    let preSavedScores = this.localStorageService.get('preSavedScores');
-    let gameName = this.localStorageService.get('GameName');
+    let preSavedScores = JSON.parse(localStorage.getItem('preSavedScores')) as Object;
+    let gameName = localStorage.getItem('GameName');
     let promises = [];
     let i = 0;
     for (var key in preSavedScores) {
@@ -56,12 +55,12 @@ export class GameService {
       promises[i++] = this.addPlayerScore(gameName, obj.name, obj.score);
     }
 
-    this.localStorageService.remove('preSavedScores');
+    localStorage.removeItem('preSavedScores');
     return promises;
   }
 
   playAgain(): Promise<Game> {
-    const gameName = this.localStorageService.get('GameName');
+    const gameName = localStorage.getItem('GameName');
     const url = `${this.gameUrl}/${gameName}/playagain`
     return this.post(url, '');
   }

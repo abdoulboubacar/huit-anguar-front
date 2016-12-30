@@ -10,6 +10,8 @@ import {PlayerComponent} from './components/player/player.component';
 import {GameComponent} from './components/game/game.component';
 import {LocalStorageModule} from 'angular-2-local-storage';
 import { RangePipe } from './pipes/range.pipe';
+import { AUTH_PROVIDERS }      from 'angular2-jwt';
+import {AuthService} from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,7 @@ import { RangePipe } from './pipes/range.pipe';
       storageType: 'localStorage'
     })
   ],
-  providers: [GameService, PlayerService],
+  providers: [GameService, PlayerService, AuthService, AUTH_PROVIDERS],
   bootstrap: [GameComponent]
 })
 export class AppModule {

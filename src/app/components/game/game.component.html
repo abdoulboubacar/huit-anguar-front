@@ -1,17 +1,17 @@
+<div *ngIf="auth.authenticated()">
 <div class="row">
-  <div class="col-xs-12 col-md-12">
-    <h1>Table 8 Américain</h1>
+  <div class="picture">
+    <div *ngIf="profile().identities[0].provider == 'facebook'">
+      <img src="{{profile().picture_large}}">
+    </div>
+    <div *ngIf="profile().identities[0].provider != 'facebook'">
+      <img src="{{profile().picture}}">
+    </div>
   </div>
-  <div class="col-xs-12 col-md-12 create-game-form">
-    <form [formGroup]="gameForm" (ngSubmit)="loadGame($event)" class="form-inline">
-      <div class="input-group">
-        <input formControlName="name" type="email" placeholder="Entrez votre adresse email" class="form-control">
-        <span class="input-group-btn">
-			  		<button type="submit" class="btn btn-default">Charger</button>
-            <button type="button" title="Rejouer" class="btn btn-default" (click)="playAgain($event)">Rejouer</button>
-          </span>
-      </div>
-    </form>
+  <div class="col-xs-12 col-md-12 actions">
+      <!--<button type="button" title="Charger" class="btn btn-secondary btn-default" (click)="loadGame($event)">Charger</button>-->
+      <button type="button" title="Rejouer" class="btn btn-secondary btn-success pull-left" (click)="playAgain($event)"><i class="fa fa-refresh" aria-hidden="true"></i></button>
+      <button type="button" title="Déconnexion" class="btn btn-secondary btn-danger pull-right" (click)="auth.logout()"><i class="fa fa-sign-out" aria-hidden="true"></i></button>
   </div>
 </div>
 <div *ngIf="game" class="row" id="huit-actions">
@@ -22,7 +22,7 @@
         <button type="submit" class="btn btn-success"><i class="fa fa-user-plus" aria-hidden="true"></i></button>
         <button type="reset" class="btn btn-danger" (click)="removePlayer($event)"><i class="fa fa-user-times"
                                                                                       aria-hidden="true"></i></button>
-        </span>
+      </span>
     </div>
   </form>
 </div>
@@ -40,4 +40,7 @@
   <div class="col-xs-6">
     <button type="button" class="btn btn-danger col-xs-12" (click)="removeLast($event)">Annuler le dernier jeu</button>
   </div>
+</div>
+</div>
+<div *ngIf="!auth.authenticated() && auth.login()">
 </div>

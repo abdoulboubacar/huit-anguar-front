@@ -1,8 +1,9 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {FormBuilder, Validators, FormGroup} from '@angular/forms';
 import {GameService} from '../../services/game.service';
+import {AuthService} from '../../services/auth.service';
 import {Game} from '../../model/Game';
-import {LocalStorageService} from 'angular-2-local-storage';
+//import {LocalStorageService} from 'angular-2-local-storage';
 import 'rxjs/add/operator/toPromise';
 
 
@@ -14,37 +15,39 @@ import 'rxjs/add/operator/toPromise';
 export class GameComponent implements OnInit {
 
   public singleModel:string = '1';
-  
-  constructor(public fb: FormBuilder, private gameService: GameService, private localStorageService: LocalStorageService) {
+
+  constructor(private auth: AuthService, public fb: FormBuilder, private gameService: GameService) {
+
   }
 
   @Input()
   game: Game;
-
-  public gameForm = this.fb.group({
-    name: ["", Validators.required],
-  });
 
   public userForm = this.fb.group({
     name: ["", Validators.required],
   });
 
   ngOnInit() {
-    if (this.localStorageService.get('GameName') != null) {
+    if (localStorage.getItem('GameName') != null) {
       this.gameService.getGame().then(game => this.game = game as Game);
-      this.gameForm.controls['name'].setValue(this.localStorageService.get('GameName'));
+    }
+  }
+
+  profile() {
+    if (localStorage.getItem('profile') != null) {
+      return JSON.parse(localStorage.getItem('profile'));
     }
   }
 
   loadGame(event) {
-    if (this.gameForm.value.name != "") {
-      this.gameService.createGame(this.gameForm.value.name).then(game => this.game = game as Game);
+    if (localStorage.getItem('GameName') != "") {
+      this.gameService.createGame(localStorage.getItem('GameName')).then(game => this.game = game as Game);
     }
   }
 
   removePlayer(event) {
     if (this.userForm.value.name != "") {
-      this.gameService.removePlayer(this.userForm.value.name).then(game => this.game = game as Game);
+      this.gameService.removePlayer(localStorage.getItem('GameName')).then(game => this.game = game as Game);
     }
   }
 
