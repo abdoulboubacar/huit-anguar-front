@@ -1,0 +1,54 @@
+<div class="register-page">
+
+  <div class="register-error" *ngIf="registrationFailed">
+    Impossible d'effectuer l'enregistrement ! Rééssayer plus tard ...
+  </div>
+
+  <div class="register-block">
+
+    <h1 class="title"><button [routerLink]="['../login']" class="go-back-btn btn btn-default"><i class="fa fa-long-arrow-left" aria-hidden="true"></i></button> Créer un compte</h1>
+
+    <div class="register-content">
+      <form (ngSubmit)="register()" [formGroup]="registerForm">
+
+        <div class="form-group">
+          <label class="form-control-label" for="firstName-label">Prénom</label>
+          <input type="text" class="form-control" name="firstName" id="firstName-label" formControlName="firstname" />
+          <small class="form-control-feedback" *ngIf="firstNameCtrl.dirty && firstNameCtrl.hasError('required')">Ce champ est obligatoire</small>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="lastName-label">Nom</label>
+          <input type="text" class="form-control" name="lastName" id="lastName-label" formControlName="lastname" />
+          <small class="form-control-feedback" *ngIf="lastNameCtrl.dirty && lastNameCtrl.hasError('required')">Ce champ est obligatoire</small>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" for="mail-label">Adresse email</label>
+          <input type="mail" class="form-control" name="mail" id="mail-label" formControlName="mail" />
+          <small class="form-control-feedback" *ngIf="mailCtrl.dirty && mailCtrl.hasError('required')">Ce champ est obligatoire</small>
+        </div>
+
+        <div formGroupName="passwordForm">
+          <div class="form-group">
+            <label class="form-control-label" for="password-label">Mot de passe</label>
+            <input type="password" class="form-control" name="password" id="password-label" formControlName="password" />
+            <small class="form-control-feedback" *ngIf="passwordCtrl.dirty && passwordCtrl.hasError('required')">Ce champ est obligatoire</small>
+          </div>
+
+          <div class="form-group">
+            <label class="form-control-label" for="passwordCheck-label">Confirmer le mot de passe</label>
+            <input type="password" class="form-control" name="passwordCheck" id="passwordCheck-label" formControlName="confirmPassword" />
+            <small class="form-control-feedback" *ngIf="passwordCheckCtrl.dirty && passwordCheckCtrl.hasError('required')">Ce champ est obligatoire</small>
+            <small class="form-control-feedback" id="password-matching-error" *ngIf="passwordForm.dirty && passwordForm.hasError('matchingError') && !passwordCheckCtrl.hasError('required')">Les mots de passe ne sont pas identiques</small>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" type="submit" [disabled]="!registerForm.valid">Valider</button>
+
+      </form>
+    </div>
+
+  </div>
+
+</div>

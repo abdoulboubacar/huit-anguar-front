@@ -1,0 +1,42 @@
+<app-toolbar></app-toolbar>
+<div class="content container-fluid">
+  <div class="game">
+    <div class="row" *ngIf="game && game.players.length > 0">
+      <div class="col-md-12">
+        <div class="player col-size-{{game.players.length}}" *ngFor="let player of game.players;">
+          <app-player [player]="player"></app-player>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="content container-fluid">
+  <div class="text-center">
+    <div class="actions center">
+      <div *ngIf="!user.isAnonymous && user.id === game.owner.id" class="btn-group" role="group" aria-label="Basic example">
+        <button (click)="showAddPlayerForm = !showAddPlayerForm" type="button" class="btn btn-secondary btn-success" title="Ajouter"><i class="fa fa-user-plus fa-2x" aria-hidden="true"></i></button>
+        <button type="button" class="btn btn-secondar btn-primary" title="Valider la saisie"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></button>
+        <button type="button" class="btn btn-secondary btn-default" title="Paramètre du jeu"><i class="fa fa-cog fa-2x" aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </div>
+  <!-- new player form -->
+  <div class="actions-form" *ngIf="showAddPlayerForm">
+    <div class="layer" (click)="showAddPlayerForm = !showAddPlayerForm"></div>
+    <form class="form" (ngSubmit)="addPlayer()" #newPlayerForm="ngForm">
+      <span class="title">Ajouter un joueur</span>
+      <div class="row">
+        <div class="form-group col-md-8">
+          <label for="name">Nom du joueur</label>
+          <input type="text" class="form-control" name="name" id="name" placeholder="Entrer le nom du joueur" [(ngModel)]="newPlayer.name" #nameCtrl="ngModel" required>
+          <small class="error form-text text-muted" *ngIf="nameCtrl.control.dirty && nameCtrl.control.hasError('required')">Ce champ est obligatoire</small>
+        </div>
+      </div>
+
+      <div class="form-action">
+        <button type="reset" class="btn btn-secondary" (click)="showAddPlayerForm = !showAddPlayerForm">Annuler</button>
+        <button type="submit" class="btn btn-primary" [disabled]="!newPlayerForm.valid">Ajouter</button>
+      </div>
+    </form>
+  </div>
+</div>

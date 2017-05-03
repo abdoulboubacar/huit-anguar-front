@@ -1,0 +1,19 @@
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-primary">
+  <a class="navbar-brand" href="/">
+    <img src="/assets/images/huit.png" height="30" class="d-inline-block align-top" alt="">
+    <span *ngIf="!user.isAnonymous"> {{user.firstName}} </span>
+  </a>
+
+  <div id="sign">
+    <ul class="navbar-nav mr-auto">
+    </ul>
+    <div class="my-2 my-lg-0" *ngIf="user.isAnonymous">
+      <button [routerLink]="['/login']" type="button" class="btn btn-secondary btn-success" title="Connexion"><i class="fa fa-sign-in fa-2x" aria-hidden="true"></i></button>
+
+    </div>
+    <div class="my-2 my-lg-0" *ngIf="!user.isAnonymous">
+      <button [routerLink]="['/login']" type="button" class="btn btn-secondary btn-danger" title="Déconnexion"><i class="fa fa-sign-out fa-2x" aria-hidden="true"></i></button>
+    </div>
+  </div>
+
+</nav>

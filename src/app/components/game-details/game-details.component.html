@@ -1,0 +1,23 @@
+<div class="channel-details">
+  <div class="block title">
+    <span class="title">A propos de : {{ game.name }}</span>
+    <button class="btn btn-link btn-close" (click)="close()"><span class="fa fa-close"></span></button>
+  </div>
+
+  <div class="block infos">
+    <span class="title"><i class="fa fa-info"></i> Details</span>
+    <p>{{ game.description }}</p>
+  </div>
+
+  <div class="block members">
+    <span class="title"><i class="fa fa-user"></i>Members</span>
+    <ul>
+      <li class="user" *ngFor="let user of users; let idx=index" #elem (click)="selectUser(user, idx)">
+        <img src="assets/images/poulpy.png" width="30" height="30" alt="">
+        <span class="name">{{ user.username }}</span>
+      </li>
+    </ul>
+  </div>
+
+  <app-user-infos [user]="clickedUser" [position]="position" (closeUserInfo)="showUserInfo = !showUserInfo" *ngIf="showUserInfo"></app-user-infos>
+</div>

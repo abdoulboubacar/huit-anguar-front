@@ -1,0 +1,37 @@
+<app-toolbar></app-toolbar>
+<div class="content container-fluid">
+  <div class="game-list">
+    <div class="game" *ngFor="let game of games | search:'name':search" [routerLink]="['../game', game.id]">
+      <img [src]="game.owner.avatarUrl" alt="avatar" />
+      <div class="md-list-item-text" layout="column">
+        <h3>{{ game.name }}</h3>
+        <p>Crée par {{game.owner.firstName}} <span class="created-at">{{ game.date | dateFilter}}</span></p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="content container-fluid">
+  <div class="actions">
+    <button *ngIf="!user.isAnonymous" class="btn btn-primary btn-lg btn-block btn-show" (click)="showNewGameForm = !showNewGameForm" >Nouveau jeu</button>
+    <button *ngIf="user.isAnonymous" [routerLink]="['/login']" class="btn btn-primary btn-lg btn-block btn-show" >Connexion</button>
+
+    <div class="new-game-form" *ngIf="showNewGameForm">
+      <div class="layer" (click)="showNewGameForm = !showNewGameForm"></div>
+      <form class="form" (ngSubmit)="addGame()" #gameForm="ngForm">
+        <span class="title">Créer un nouveau jeu</span>
+        <div class="row">
+          <div class="form-group col-md-8">
+            <label for="name">Titre</label>
+            <input type="text" class="form-control" name="name" id="name" placeholder="Entrer le nom du nouveau channel" [(ngModel)]="newGame.name" #nameCtrl="ngModel" required>
+            <small class="error form-text text-muted" *ngIf="nameCtrl.control.dirty && nameCtrl.control.hasError('required')">Ce champ est obligatoire</small>
+          </div>
+        </div>
+
+        <div class="form-action">
+          <span class="btn btn-secondary" (click)="showNewGameForm = !showNewGameForm">Annuler</span>
+          <button type="submit" class="btn btn-primary" [disabled]="!gameForm.valid">Créer le jeu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
